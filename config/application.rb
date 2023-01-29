@@ -1,6 +1,6 @@
 require_relative "boot"
 
-require "rails"
+require "rails/all"
 # Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
@@ -31,7 +31,9 @@ module MealPlan
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Don't generate system test files.
-    config.generators.system_tests = nil
+    config.generators do |g|
+      g.test_framework :minitest, spec: true
+      g.fixture_replacement :factory_bot, dir: "test/factories"
+    end
   end
 end
