@@ -11,9 +11,30 @@ class MealPlansController < ApplicationController
   end
   
   def new
+
+    if params[:meal_plan].blank?
+      start_date = Date.today
+      end_date = 6.days.from_now.to_date
+    elsif params[:meal_plan][:start_date].blank?
+      start_date = Date.today
+      if params[:meal_plan][:end_date].blank?
+        end_date = start_date.to_date + 6.days
+      else
+        end_date = params[:meal_plan][:end_date]
+        start_date = end_date.to_date - 6.days
+      end
+    elsif params[:meal_plan][:end_date].blank?
+      start_date = params[:meal_plan][:start_date] 
+      end_date = start_date.to_date + 6.days
+    else
+      start_date = params[:meal_plan][:start_date]
+      end_date = params[:meal_plan][:end_date]
+    end
+
+
     @meal_plan = current_user.meal_plans.build(
-      start_date: (meal_plan_params[:start_date] || Date.today),
-      end_date: (meal_plan_params[:end_date] || 6.days.from_now.to_date)
+      start_date: start_date ,
+      end_date: end_date
     )
   
     @meal_plan.build_meals
