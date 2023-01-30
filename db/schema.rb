@@ -10,9 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_28_221020) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_30_111533) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "meal_plans", force: :cascade do |t|
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_meal_plans_on_user_id"
+  end
+
+  create_table "meals", force: :cascade do |t|
+    t.date "date", null: false
+    t.bigint "meal_plan_id", null: false
+    t.bigint "recipe_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meal_plan_id"], name: "index_meals_on_meal_plan_id"
+    t.index ["recipe_id"], name: "index_meals_on_recipe_id"
+  end
 
   create_table "recipes", force: :cascade do |t|
     t.string "name", null: false
@@ -36,5 +55,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_28_221020) do
     t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
   end
 
+  add_foreign_key "meal_plans", "users"
+  add_foreign_key "meals", "meal_plans"
+  add_foreign_key "meals", "recipes"
   add_foreign_key "recipes", "users"
 end
