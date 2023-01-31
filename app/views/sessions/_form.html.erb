@@ -1,0 +1,14 @@
+<%= form_for :session, url: session_path do |form| %>
+
+  <%= form.email_field :email, class: "form-control", placeholder: "Email address", autofocus: true, required: true %>
+  <%= form.password_field :password, class: "form-control", placeholder: "Password", required: true %>
+  <%= form.submit "Sign in", class: "btn btn-lg btn-primary btn-block" %>
+
+  <div class="other-links">
+    <% if Clearance.configuration.allow_sign_up? %>
+    <p>Don't have an account? <%= link_to "Sign up", sign_up_path %></p>
+    <% end %>
+  </div>
+<% end %>
+
+    
