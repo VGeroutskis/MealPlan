@@ -10,6 +10,7 @@ exit if !Rails.env.development?
 puts "Deleting the Data"
 Recipe.delete_all
 User.delete_all
+MealPlan.delete_all
 
 puts "Creating User"
 user = FactoryBot.create(:user, email: "test@example.com", encrypted_password: "$2a$12$gl6LCUOUY/l8Cs0dBznMCeubhS/GRDonXQ.rPl2iI8dD6frZlAUlK")
